@@ -1,39 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Amadon</title>
+
+    <!-- Bootstrap TAGS from (getbootstrap.com/docs) -->
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap TAGS -->
+
 </head>
+
 <body>
-    <h1>Amadon Store!</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in all_products %}
-            <tr>
-                <form action="/checkout" method="post">
-                    {% csrf_token %}
-                    <td>{{product.description}}</td>
-                    <td><input type="hidden" name="price" value="{{product.price}}">{{product.price}}</td>
-                    <td><select name="quantity">
-                        <option value="1">1</option>              
-                        <option value="2">2</option>              
-                        <option value="3">3</option>              
-                    </select></td>
-                    <td><input type="submit" value="Buy!"></td>
-                </form>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>Amadon Store!</h1>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="table-dark">Item</th>
+                    <th class="table-dark">Price</th>
+                    <th class="table-dark">Quantity</th>
+                    <th class="table-dark">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in all_products %}
+                <tr>
+                    <form action="checking_out/{{product.id}}" method="post">
+                        {% csrf_token %}
+                        <td>{{product.description}}</td>
+                        <td>${{product.price}}</td>
+                        <td><select name="quantity">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select></td>
+                        <td><input type="submit" value="Buy!"></td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <h1>ORDERS PLACED!</h1>
+        <table class="table table-striped table-bordered table-danger">
+            <thead>
+                <tr>
+                    <th class="table-info">QTY Odered</th>
+                    <th class="table-info">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in all_orders %}
+                <tr>
+                    <td>{{order.quantity_ordered}}</td>
+                    <td>{{order.total_price}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+
+
+    </div>
 </body>
+
 </html>
